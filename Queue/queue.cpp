@@ -1,77 +1,107 @@
 #include <iostream>
 
+
+template <typename T>
+struct Node;
+
 template <typename T>
 class Queue {
 private:
-	int _front;
-	int _size;
-	int _rear;
-	unsigned int _capacity;
-	T* _values;
+	unsigned int _size;
+	Node<T>** _front;
+	Node<T>* _rear;
 
 public:
 	Queue() {
-		_capacity = 4;
-		_front = 0;
 		_size = 0;
-		_rear = 0;
-		_values = new T[_capacity];
+		_front = nullptr;
+		_rear = nullptr;
 	}
 
 	~Queue() {
-		delete[] _values;
+
 	}
-	
-	int size() const{
+
+	int size() {
 		return _size;
 	}
 
-	bool isEmpty() const{
-		if (_size == 0) return true;
+	bool isEmpty() {
+		if (_size == 0) 
+			return true;
+
 		return false;
 	}
-
-	T front() {
-		if (_front == _rear) {
-			throw "큐가 비어있습니다.";
+	
+	void push(T& data) {
+		if (_front == nullptr) {
+			Node<T>* temp = new Node<T>(data);
+			_front = &temp;
+			_rear = temp;
+			_size++;
+			return;
 		}
-		return _values[_front + 1];
+		
+		Node<T>* temp = new Node<T>(data);
+		_rear->_next = temp;
+		_rear = temp;
+		_front->_next;
+		_size++;
 	}
 
-	void push(T data) {
-		if (_size < _capacity) {
-			_values[++_rear] = data;
+	void push(T&& data) {
+		if (_front == nullptr) {
+			Node<T>* temp = new Node<T>(data);
+			_front = &temp;
+			_rear = temp;
 			_size++;
+			return;
 		}
-		else {
-			_capacity *= 2;
-			T* temp = new T[_capacity];
-			for (int i = 1; i < _size; i++) {
-				temp[i] = _values[i];
-			}
-			delete[] _values;
-			_values = temp;
 
-			_values[++_rear] = data;
-			_size++;
-		}
+		Node<T>* temp = new Node<T>(data);
+		_rear->_next = temp;
+		_rear = temp;
+		_size++;
 	}
 
 	T pop() {
-		if (!isEmpty()) {
-			return _values[++front];
-		}
-		else {
+
+	}
+
+	T front() {
+		if (isEmpty()) {
 			throw "큐가 비어있습니다.";
+		}
+		if (_front != nullptr) {
+			return _rear->_value;
 		}
 	}
 
+	T back() {
+
+	}
+
+};
+
+template <typename T>
+struct Node {
+	Node<T>* _next = nullptr;
+	T _value;
+	Node(T& data) {
+		_value = data;
+	}
+	Node(T&& data) {
+		_value = data;
+	}
+	~Node(){
+		if (_next != nullptr) 
+			delete _next;
+	}
 };
 
 int main() {
 
 	Queue<int> q;
-	q.push(5);
 	q.push(10);
 	std::cout << q.front();
 
