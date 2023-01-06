@@ -32,7 +32,7 @@ public:
 	}
 
 	T front() {
-		if (_size == 0) {
+		if (_front == _rear) {
 			throw "큐가 비어있습니다.";
 		}
 		return _values[_front + 1];
@@ -45,12 +45,12 @@ public:
 		}
 		else {
 			_capacity *= 2;
-			T temp = new T[_capacity];
+			T* temp = new T[_capacity];
 			for (int i = 1; i < _size; i++) {
-				temp[i] = _value[i];
+				temp[i] = _values[i];
 			}
-			delete[] _value;
-			_value = temp;
+			delete[] _values;
+			_values = temp;
 
 			_values[++_rear] = data;
 			_size++;
@@ -59,7 +59,7 @@ public:
 
 	T pop() {
 		if (!isEmpty()) {
-			return _value[++front];
+			return _values[++front];
 		}
 		else {
 			throw "큐가 비어있습니다.";
