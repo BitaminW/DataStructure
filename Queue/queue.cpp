@@ -7,61 +7,52 @@ struct Node;
 template <typename T>
 class Queue {
 private:
-	unsigned int _size;
-	Node<T>** _front;
-	Node<T>* _rear;
+	unsigned int msize;
+	Node<T>* mfront;
+	Node<T>* mrear;
 
 public:
-	Queue() {
-		_size = 0;
-		_front = nullptr;
-		_rear = nullptr;
-	}
+	Queue() : msize(0), mfront(nullptr), mrear(nullptr) {}
 
-	~Queue() {
-
-	}
+	~Queue() { }
 
 	int size() {
-		return _size;
+		return msize;
 	}
 
 	bool isEmpty() {
-		if (_size == 0) 
-			return true;
-
-		return false;
+		return msize == 0;
 	}
 	
 	void push(T& data) {
-		if (_front == nullptr) {
+		if (mfront == nullptr) {
 			Node<T>* temp = new Node<T>(data);
-			_front = &temp;
-			_rear = temp;
-			_size++;
+			mfront = temp;        // ??
+			mrear = temp;
+			msize++;
 			return;
 		}
 		
 		Node<T>* temp = new Node<T>(data);
-		_rear->_next = temp;
-		_rear = temp;
-		_front->_next;
-		_size++;
+		mrear->mnext = temp;
+		mrear = temp;
+		mfront->mnext;
+		msize++;
 	}
 
 	void push(T&& data) {
-		if (_front == nullptr) {
+		if (mfront == nullptr) {
 			Node<T>* temp = new Node<T>(data);
-			_front = &temp;
-			_rear = temp;
-			_size++;
+			mfront = temp;  // ?? 
+			mrear = temp;
+			msize++;
 			return;
 		}
 
 		Node<T>* temp = new Node<T>(data);
-		_rear->_next = temp;
-		_rear = temp;
-		_size++;
+		mrear->mnext = temp;
+		mrear = temp;
+		msize++;
 	}
 
 	T pop() {
@@ -72,8 +63,8 @@ public:
 		if (isEmpty()) {
 			throw "큐가 비어있습니다.";
 		}
-		if (_front != nullptr) {
-			return _rear->_value;
+		if (mfront != nullptr) {
+			return mrear->mvalue;
 		}
 	}
 
@@ -85,17 +76,17 @@ public:
 
 template <typename T>
 struct Node {
-	Node<T>* _next = nullptr;
-	T _value;
+	Node<T>* mnext = nullptr;
+	T mvalue;
+
 	Node(T& data) {
-		_value = data;
+		mvalue = data;
 	}
 	Node(T&& data) {
-		_value = data;
+		mvalue = data;
 	}
 	~Node(){
-		if (_next != nullptr) 
-			delete _next;
+		delete mnext;
 	}
 };
 
