@@ -1,5 +1,5 @@
 #include <iostream>
-
+#include <stdexcept>
 
 template <typename T>
 struct Node;
@@ -7,52 +7,52 @@ struct Node;
 template <typename T>
 class Queue {
 private:
-	unsigned int msize;
-	Node<T>* mfront;
-	Node<T>* mrear;
+	unsigned int m_size;
+	Node<T>* m_front;
+	Node<T>* m_rear;
 
 public:
-	Queue() : msize(0), mfront(nullptr), mrear(nullptr) {}
+	Queue() : m_size(0), m_front(nullptr), m_rear(nullptr) {}
 
 	~Queue() { }
 
 	int size() {
-		return msize;
+		return m_size;
 	}
 
 	bool isEmpty() {
-		return msize == 0;
+		return m_size == 0;
 	}
 	
-	void push(T& data) {
-		if (mfront == nullptr) {
+	void push(const T& data) {
+		if (m_front == nullptr) {
 			Node<T>* temp = new Node<T>(data);
-			mfront = temp;        // ??
-			mrear = temp;
-			msize++;
+			m_front = temp;        // ??
+			m_rear = temp;
+			m_size++;
 			return;
 		}
 		
 		Node<T>* temp = new Node<T>(data);
-		mrear->mnext = temp;
-		mrear = temp;
-		mfront->mnext;
-		msize++;
+		m_rear->m_next = temp;
+		m_rear = temp;
+		m_front->m_next;
+		m_size++;
 	}
 
 	void push(T&& data) {
-		if (mfront == nullptr) {
-			Node<T>* temp = new Node<T>(data);
-			mfront = temp;  // ?? 
-			mrear = temp;
-			msize++;
+		if (m_front == nullptr) {
+			Node<T>* temp = new Node<T>(std::move(data));
+			m_front = temp;  // ?? 
+			m_rear = temp;
+			m_size++;
 			return;
 		}
 
-		Node<T>* temp = new Node<T>(data);
-		mrear->mnext = temp;
-		mrear = temp;
-		msize++;
+		Node<T>* temp = new Node<T>(std::move(data));
+		m_rear->m_next = temp;
+		m_rear = temp;
+		m_size++;
 	}
 
 	T pop() {
@@ -61,10 +61,10 @@ public:
 
 	T front() {
 		if (isEmpty()) {
-			throw "큐가 비어있습니다.";
+			throw std::runtime_error("Empty Queue");
 		}
-		if (mfront != nullptr) {
-			return mrear->mvalue;
+		if (m_front != nullptr) {
+			return m_front->m_value;
 		}
 	}
 
@@ -76,25 +76,27 @@ public:
 
 template <typename T>
 struct Node {
-	Node<T>* mnext = nullptr;
-	T mvalue;
+	Node<T>* m_next = nullptr;
+	T m_value;
 
 	Node(T& data) {
-		mvalue = data;
+		m_value = data;
 	}
 	Node(T&& data) {
-		mvalue = data;
+		m_value = data;
 	}
 	~Node(){
-		delete mnext;
+		delete m_next;
 	}
 };
 
-int main() {
-
-	Queue<int> q;
-	q.push(10);
-	std::cout << q.front();
-
-	return 0;
-}
+//int main() {
+//
+//	Queue<int> q;
+//	q.push(10);
+//
+//	std::cout << q.front() << "\n";
+//	std::cout << q.isEmpty();
+//
+//	return 0;
+//}
