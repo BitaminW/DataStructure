@@ -14,7 +14,13 @@ private:
 public:
 	Queue() : m_size(0), m_front(nullptr), m_rear(nullptr) {}
 
-	~Queue() { }
+	~Queue() { 
+		while (m_front != nullptr) {
+			Node<T>* temp = m_front->m_next;
+			delete m_front;
+			m_front = temp;
+		}
+	}
 
 	int size() {
 		return m_size;
@@ -34,7 +40,7 @@ public:
 		}
 		
 		Node<T>* temp = new Node<T>(data);
-		m_front->m_next = temp;
+		m_rear->m_next = temp;
 		m_rear = temp;
 		m_size++;
 	}
@@ -48,14 +54,19 @@ public:
 			return;
 		}
 		Node<T>* temp = new Node<T>(std::move(data));
-		m_front->m_next = temp;
+		m_rear->m_next = temp;
 		m_rear = temp;
 		m_size++;
 	}
 
 	// 가장 먼저 들어온 요소를 삭제한다. delete front
 	void pop() {
-
+		if (!isEmpty()) {
+			Node<T>* temp = m_front->m_next;
+			delete m_front;
+			m_front = temp;
+			m_size--;
+		}
 	}
 
 	// 가장 먼저 들어온 요소를 반환한다. return front
@@ -79,28 +90,9 @@ struct Node {
 	Node<T>* m_next = nullptr;
 	T m_value;
 
-	Node(T& data) {
-		m_value = data;
-	}
-	Node(T&& data) {
-		m_value = data;
-	}
-	~Node(){
-		delete m_next;
-	}
+	Node() : m_value{ T{} } {}
+	Node(T& data) : m_value{ data } {}
+	Node(T&& data) : m_value { std::move(data) }  {}
+
+	~Node() = default;
 };
-
-int main() {
-
-	Queue<int> q;
-	q.push(10);
-	q.push(20);
-	q.push(30);
-
-	std::cout << q.front() << "\n";
-	q.pop();
-	q.pop();
-	std::cout << q.front() << "\n";
-
-	return 0;
-}
