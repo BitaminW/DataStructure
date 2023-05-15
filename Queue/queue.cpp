@@ -1,6 +1,7 @@
 #include <iostream>
 #include <stdexcept>
 
+
 template <typename T>
 struct Node;
 
@@ -22,11 +23,11 @@ public:
 		}
 	}
 
-	int size() {
+	size_t size() const {
 		return m_size;
 	}
 
-	bool isEmpty() {
+	bool isEmpty() const {
 		return m_size == 0;
 	}
 	
@@ -80,7 +81,10 @@ public:
 
 	// 가장 나중에 들어온 요소를 반환한다. return rear
 	T back() {
-
+		if (isEmpty()) {
+			throw std::runtime_error("Queue is empty");
+		}
+		return m_rear->m_value;
 	}
 
 };
