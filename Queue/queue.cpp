@@ -34,9 +34,8 @@ public:
 		}
 		
 		Node<T>* temp = new Node<T>(data);
-		m_rear->m_next = temp;
+		m_front->m_next = temp;
 		m_rear = temp;
-		m_front->m_next;
 		m_size++;
 	}
 
@@ -49,7 +48,7 @@ public:
 			return;
 		}
 		Node<T>* temp = new Node<T>(std::move(data));
-		m_rear->m_next = temp;
+		m_front->m_next = temp;
 		m_rear = temp;
 		m_size++;
 	}
@@ -94,10 +93,14 @@ struct Node {
 int main() {
 
 	Queue<int> q;
-	// q.push(10);
+	q.push(10);
+	q.push(20);
+	q.push(30);
 
 	std::cout << q.front() << "\n";
-	std::cout << q.isEmpty();
+	q.pop();
+	q.pop();
+	std::cout << q.front() << "\n";
 
 	return 0;
 }
