@@ -48,26 +48,27 @@ public:
 			m_size++;
 			return;
 		}
-
 		Node<T>* temp = new Node<T>(std::move(data));
 		m_rear->m_next = temp;
 		m_rear = temp;
 		m_size++;
 	}
 
-	T pop() {
+	// 가장 먼저 들어온 요소를 삭제한다. delete front
+	void pop() {
 
 	}
 
+	// 가장 먼저 들어온 요소를 반환한다. return front
 	T front() {
 		if (isEmpty()) {
-			throw std::runtime_error("Empty Queue");
+			throw std::runtime_error("Queue is empty");
 		}
-		if (m_front != nullptr) {
-			return m_front->m_value;
-		}
+		
+		return m_front->m_value;
 	}
 
+	// 가장 나중에 들어온 요소를 반환한다. return rear
 	T back() {
 
 	}
@@ -90,13 +91,13 @@ struct Node {
 	}
 };
 
-//int main() {
-//
-//	Queue<int> q;
-//	q.push(10);
-//
-//	std::cout << q.front() << "\n";
-//	std::cout << q.isEmpty();
-//
-//	return 0;
-//}
+int main() {
+
+	Queue<int> q;
+	// q.push(10);
+
+	std::cout << q.front() << "\n";
+	std::cout << q.isEmpty();
+
+	return 0;
+}
