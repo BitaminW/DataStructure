@@ -14,10 +14,23 @@ private:
 
 public:
 	DoublyLinkedList() = default;
-	DoublyLinkedList(int size);
+	DoublyLinkedList(int size) {
 
-	void Add();
+	}
+
+public:
+	void assign();
 	
+	T front();
+	T back();
+
+	void push_back();
+
+
+	
+
+private:
+	void create_node();
 };
 
 template <typename T>
@@ -31,7 +44,7 @@ public:
 
 
 template <typename T>
-void DoublyLinkedList<T>::Add() {
+void DoublyLinkedList<T>::push_back() {
 
 }
 
@@ -40,7 +53,7 @@ void DoublyLinkedList<T>::Add() {
 int main() {
 
 	DoublyLinkedList<int> linked_list{};
-	linked_list.Add();
+	linked_list.push_back();
 
 	return 0;
 }
